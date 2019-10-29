@@ -3,7 +3,7 @@ import java.util.Scanner;
 ////////////////////////////////////////////////////////////////////////
 // Programmed by:
 //   - Pierre-Olivier Trottier (40059235)
-//   - Nimit Jaggi (XXXXXXXX)
+//   - Nimit Jaggi (40032159)
 ////////////////////////////////////////////////////////////////////////
 
 public class Main {
@@ -92,7 +92,40 @@ public class Main {
 
 	private static boolean isSolvable(int[] array, int position) {
     // IMPLEMENT YOUR CODE HERE
-    return false;
+
+        int size = array.length;
+        int tracker;
+        int currentVal;
+        int left;
+        int right;
+        boolean solvable = false;
+
+        while(!solvable) {
+
+            tracker = position;
+            currentVal = array[tracker];
+            left = tracker;
+            right = size - tracker -1;
+
+            if (currentVal > left && currentVal > right)
+
+                return false;
+
+            else if(tracker == (size-1))
+
+                solvable = true;
+
+            else if(currentVal < right && currentVal > left){
+
+                tracker = tracker + currentVal;
+                currentVal = array[tracker];
+                left = tracker;
+                right = size - tracker - 1;
+            }
+
+        }
+
+        return true;
   }
 
 	private static void printArray(int[] array, int position) {
