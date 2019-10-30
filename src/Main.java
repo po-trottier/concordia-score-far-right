@@ -94,7 +94,8 @@ public class Main {
     // IMPLEMENT YOUR CODE HERE
 
         int size = array.length;
-        int tracker;
+        int tracker1 = position;
+        int tracker2 = position;
         int currentVal;
         int left;
         int right;
@@ -102,28 +103,39 @@ public class Main {
 
         while(!solvable) {
 
-            tracker = position;
-            currentVal = array[tracker];
-            left = tracker;
-            right = size - tracker -1;
+            currentVal = array[tracker1];
+            left = tracker1;
+            right = size - tracker1 -1;
 
             if (currentVal > left && currentVal > right)
 
                 return false;
 
-            else if(tracker == (size-1))
+            else if(tracker1 == (size-1) || tracker2 == (size-1))
 
-                solvable = true;
+                return true;
 
             else if(currentVal < right && currentVal > left){
 
-                tracker = tracker + currentVal;
-                currentVal = array[tracker];
-                left = tracker;
-                right = size - tracker - 1;
+                tracker1 = tracker1 + currentVal;
+                tracker2 = tracker1;
+                currentVal = array[tracker1];
+                left = tracker1;
+                right = size - tracker1 - 1;
+            }
+
+            else if(currentVal < left  && currentVal > right){
+
+                  tracker1 = tracker1 - currentVal;
+                  tracker2 = tracker1;
+                  currentVal = array[tracker1];
+                  left = tracker1;
+                  right = size - tracker1 - 1;
             }
 
         }
+
+
 
         return true;
   }
