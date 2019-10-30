@@ -101,8 +101,6 @@ public class Main {
         int right;
         boolean solvable = false;
 
-        while(!solvable) {
-
             currentVal = array[tracker1];
             left = tracker1;
             right = size - tracker1 -1;
@@ -111,30 +109,9 @@ public class Main {
 
                 return false;
 
-            else if(tracker1 == (size-1) || tracker2 == (size-1))
+        currentVal = array[position];
 
-                return true;
-
-            else if(currentVal < right && currentVal > left){
-
-                tracker1 = tracker1 + currentVal;
-                tracker2 = tracker1;
-                currentVal = array[tracker1];
-                left = tracker1;
-                right = size - tracker1 - 1;
-            }
-
-            else if(currentVal < left  && currentVal > right){
-
-                  tracker1 = tracker1 - currentVal;
-                  tracker2 = tracker1;
-                  currentVal = array[tracker1];
-                  left = tracker1;
-                  right = size - tracker1 - 1;
-            }
-
-        }
-
+        BinaryTree tree = new BinaryTree(currentVal);
 
 
         return true;
