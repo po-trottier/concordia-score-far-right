@@ -21,12 +21,12 @@ public class BinaryTree {
 
 
     class Node {
-        private int key;
+        private int value;
         private Node left;
         private Node right;
 
-        Node(int key) {
-            this.key = key;
+        Node(int value) {
+            this.value = value;
             right = null;
             left = null;
         }
