@@ -99,11 +99,20 @@ public class Main {
         binaryArray[0] = position;
         int currentValue;
         int tracker;
-        int counter = 0;
 
-        for(int i = 0; i<binaryArray.length -1; i++){
+        for(int i = 0; i<binaryArray.length; i++){
 
+            if(binaryArray[i] == -1y)
+                return false;
+            else if(binaryArray[i] == -1){
+
+                tracker = binaryArray[i+1];
+                i++;
+
+            }
+            else
             tracker = binaryArray[i];
+
             currentValue = array[tracker];
             right = size - tracker - 1;
             left = tracker;
@@ -111,19 +120,20 @@ public class Main {
             if(right == currentValue)
                 return true;
 
-            if(left -  currentValue < 0 && right < currentValue)
+            if((left -  currentValue) < 0 && right < currentValue)
                 return false;
 
             if((left - currentValue) > 0)
                 binaryArray[(2*i)+1] = left - currentValue;
+            else
+                binaryArray[(2*i)+1] = -1;
 
             if(right >= currentValue)
                 binaryArray[(2*i)+2] = left - currentValue;
+            else
+                binaryArray[(2*i)+2] = -1;
 
-            if(counter == (3*size))
-                return false;
 
-            counter++;
         }
 
 
