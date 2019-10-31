@@ -91,30 +91,43 @@ public class Main {
 	}
 
 	private static boolean isSolvable(int[] array, int position) {
-    // IMPLEMENT YOUR CODE HERE
 
         int size = array.length;
-        int tracker1 = position;
-        int tracker2 = position;
-        int currentVal;
         int left;
         int right;
-        boolean solvable = false;
+        int[] binaryArray = new int[3*size];
+        binaryArray[0] = position;
+        int currentValue;
+        int tracker;
+        int counter = 0;
 
-            currentVal = array[tracker1];
-            left = tracker1;
-            right = size - tracker1 -1;
+        for(int i = 0; i<binaryArray.length -1; i++){
 
-            if (currentVal > left && currentVal > right)
+            tracker = binaryArray[i];
+            currentValue = array[tracker];
+            right = size - tracker - 1;
+            left = tracker;
 
+            if(right == currentValue)
+                return true;
+
+            if(left -  currentValue < 0 && right < currentValue)
                 return false;
 
-        currentVal = array[position];
+            if((left - currentValue) > 0)
+                binaryArray[(2*i)+1] = left - currentValue;
 
-        BinaryTree tree = new BinaryTree(currentVal);
+            if(right >= currentValue)
+                binaryArray[(2*i)+2] = left - currentValue;
+
+            if(counter == (3*size))
+                return false;
+
+            counter++;
+        }
 
 
-        return true;
+        return false;
   }
 
 	private static void printArray(int[] array, int position) {
