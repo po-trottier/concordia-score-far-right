@@ -102,7 +102,7 @@ public class Main {
 
         for(int i = 0; i<binaryArray.length; i++){
 
-            if(binaryArray[i] == -1y)
+            if(binaryArray[i] == -1)
                 return false;
             else if(binaryArray[i] == -1){
 
