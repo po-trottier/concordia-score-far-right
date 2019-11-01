@@ -100,6 +100,7 @@ public class Main {
         int currentValue;
         int tracker;
 
+
         for(int i = 0; i<binaryArray.length; i++){
 
             if(binaryArray[i] == -1)
