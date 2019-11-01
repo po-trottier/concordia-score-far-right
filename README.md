@@ -1,1 +1,0 @@
-score-far-right-game
