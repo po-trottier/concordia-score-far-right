@@ -7,12 +7,18 @@ import java.util.Scanner;
 //   - Nimit Jaggi (40032159)
 ////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////
 // KNOWN BUG:
 //  If we have initial values such as:
 //    int[] array = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0};
 //    int position = 0;
 //  Where there are an infinite number of possibilities for which you
 //  can solve the problem, then the problem will be seen as unsolvable
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Answers to parts B, C and D are in the README.txt file.
+////////////////////////////////////////////////////////////////////////
 
 public class Main {
   // The real max length is effectively 20 because of the +2
@@ -36,9 +42,11 @@ public class Main {
     System.out.println("- To play, simply enter \"l\" or \"r\" to move the cursor to the left of right, respectively.");
     System.out.println("- The goal of the game is to reach the \"0\" at the right-most position.");
     System.out.println("- Good luck!\n");
+
     // Initiate the array and position for the game
     int[] array = generateRandomArray();
     int position = generateRandomPosition(array);
+
     // Stop the game right away if the problem is not solvable
     if (isSolvable(array, position)) {
       play(array, position, false);
@@ -109,7 +117,6 @@ public class Main {
     int size = values.length;
     // The size of the array is not optimal but it's a simple implementation
     int[] binaryArray = new int[3 * size];
-
 
     // Initialize the array to have -1s only
     Arrays.fill(binaryArray, -1);
