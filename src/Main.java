@@ -109,44 +109,46 @@ public class Main {
     int size = values.length;
     // The size of the array is not optimal but it's a simple implementation
     int[] binaryArray = new int[3 * size];
-    int currentValue;
-    int currentIndex;
-    int availableBefore;
-    int availableAfter;
+
 
     // Initialize the array to have -1s only
     Arrays.fill(binaryArray, -1);
     binaryArray[0] = position;
 
     // Navigate the Binary Tree
-    for(int i = 0; i < binaryArray.length; i++){
-      if(binaryArray[i] == -1)
-        continue;
+    return navigateBinaryTree(binaryArray, values, 0, size);
+  }
 
-      // Initialize variables
-      currentIndex = binaryArray[i];
-      currentValue = values[currentIndex];
-      availableAfter = (size - 1) - currentIndex;
-      availableBefore = currentIndex;
+  private static boolean navigateBinaryTree(int[] binaryArray, int[] values, int i, int size){
+    if (i == size)
+      return false;
 
-      // If the next move results in a win, then it's solvable
-      if(availableAfter == currentValue)
-        return true;
+    if(binaryArray[i] == -1)
+      return navigateBinaryTree(binaryArray, values, ++i, size);
 
-      // If you can't move left nor right, then it's not solvable
-      if(availableBefore < currentValue && availableAfter < currentValue)
-        return false;
+    // Initialize variables
+    int currentIndex = binaryArray[i];
+    int currentValue = values[currentIndex];
+    int availableBefore = currentIndex;
+    int availableAfter = (size - 1) - currentIndex;
 
-      // If you can move to the left, create a node
-      if(availableBefore >= currentValue && ((2*i)+1) < size)
-        binaryArray[(2*i)+1] = availableBefore - currentValue;
+    // If the next move results in a win, then it's solvable
+    if(availableAfter == currentValue)
+      return true;
 
-      // if you can move to the right, create a node
-      if(availableAfter >= currentValue && ((2*i)+2) < size)
-        binaryArray[(2*i)+2] = currentIndex + currentValue;
-    }
+    // If you can't move left nor right, then it's not solvable
+    if(availableBefore < currentValue && availableAfter < currentValue)
+      return false;
 
-    return false;
+    // If you can move to the left, create a node
+    if(availableBefore >= currentValue && ((2*i)+1) < size)
+      binaryArray[(2*i)+1] = availableBefore - currentValue;
+
+    // if you can move to the right, create a node
+    if(availableAfter >= currentValue && ((2*i)+2) < size)
+      binaryArray[(2*i)+2] = currentIndex + currentValue;
+
+    return navigateBinaryTree(binaryArray, values, ++i, size);
   }
 
 	private static void printArray(int[] array, int position) {
