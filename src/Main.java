@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 ////////////////////////////////////////////////////////////////////////
@@ -6,8 +7,16 @@ import java.util.Scanner;
 //   - Nimit Jaggi (40032159)
 ////////////////////////////////////////////////////////////////////////
 
+// KNOWN BUG:
+//  If we have initial values such as:
+//    int[] array = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0};
+//    int position = 0;
+//  Where there are an infinite number of possibilities for which you
+//  can solve the problem, then the problem will be seen as unsolvable
+
 public class Main {
-	private static final int MAX_LENGTH = 19; // The real max length is effectively 20 because of the +2
+  // The real max length is effectively 20 because of the +2
+	private static final int MAX_LENGTH = 19;
 	private static final int MAX_VALUE = 9;
   private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -27,6 +36,7 @@ public class Main {
     System.out.println("- To play, simply enter \"l\" or \"r\" to move the cursor to the left of right, respectively.");
     System.out.println("- The goal of the game is to reach the \"0\" at the right-most position.");
     System.out.println("- Good luck!\n");
+    // Initiate the array and position for the game
     int[] array = generateRandomArray();
     int position = generateRandomPosition(array);
     // Stop the game right away if the problem is not solvable
@@ -39,9 +49,12 @@ public class Main {
 }
 
   private static void play(int[] array, int position, boolean gameOver) {
+    // Recursive play method
+    // This will execute each turn
     System.out.println("Current Position:");
     printArray(array, position);
 
+    // If the game is over, evaluate if player won or lost
     if (gameOver) {
       if (position == array.length - 1) {
         System.out.println("Congratulations, you won the game!");
@@ -52,9 +65,11 @@ public class Main {
       }
     }
 
+    // Get the player's movement
     System.out.print("Would you like to go left (l) or right (r)? ");
     position = moveCursor(array, position);
 
+    // Decide if the move was good or not
     if (position < 0 || position >= array.length - 1)
       play(array, position, true);
     else
@@ -86,59 +101,52 @@ public class Main {
 	}
 
 	private static int generateRandomPosition(int[] array) {
-    	// Generate a random position between 0 and the last index of the array -1
+    // Generate a random position between 0 and the last index of the array -1
 		return (int) Math.floor(Math.random() * (array.length - 1));
 	}
 
-	private static boolean isSolvable(int[] array, int position) {
+	private static boolean isSolvable(int[] values, int position) {
+    int size = values.length;
+    // The size of the array is not optimal but it's a simple implementation
+    int[] binaryArray = new int[3 * size];
+    int currentValue;
+    int currentIndex;
+    int availableBefore;
+    int availableAfter;
 
-        int size = array.length;
-        int left;
-        int right;
-        int[] binaryArray = new int[3*size];
-        binaryArray[0] = position;
-        int currentValue;
-        int tracker;
+    // Initialize the array to have -1s only
+    Arrays.fill(binaryArray, -1);
+    binaryArray[0] = position;
 
+    // Navigate the Binary Tree
+    for(int i = 0; i < binaryArray.length; i++){
+      if(binaryArray[i] == -1)
+        continue;
 
-        for(int i = 0; i<binaryArray.length; i++){
+      // Initialize variables
+      currentIndex = binaryArray[i];
+      currentValue = values[currentIndex];
+      availableAfter = (size - 1) - currentIndex;
+      availableBefore = currentIndex;
 
-            if(binaryArray[i] == -1)
-                return false;
-            else if(binaryArray[i] == -1){
+      // If the next move results in a win, then it's solvable
+      if(availableAfter == currentValue)
+        return true;
 
-                tracker = binaryArray[i+1];
-                i++;
-
-            }
-            else
-            tracker = binaryArray[i];
-
-            currentValue = array[tracker];
-            right = size - tracker - 1;
-            left = tracker;
-
-            if(right == currentValue)
-                return true;
-
-            if((left -  currentValue) < 0 && right < currentValue)
-                return false;
-
-            if((left - currentValue) > 0)
-                binaryArray[(2*i)+1] = left - currentValue;
-            else
-                binaryArray[(2*i)+1] = -1;
-
-            if(right >= currentValue)
-                binaryArray[(2*i)+2] = left - currentValue;
-            else
-                binaryArray[(2*i)+2] = -1;
-
-
-        }
-
-
+      // If you can't move left nor right, then it's not solvable
+      if(availableBefore < currentValue && availableAfter < currentValue)
         return false;
+
+      // If you can move to the left, create a node
+      if(availableBefore >= currentValue && ((2*i)+1) < size)
+        binaryArray[(2*i)+1] = availableBefore - currentValue;
+
+      // if you can move to the right, create a node
+      if(availableAfter >= currentValue && ((2*i)+2) < size)
+        binaryArray[(2*i)+2] = currentIndex + currentValue;
+    }
+
+    return false;
   }
 
 	private static void printArray(int[] array, int position) {
